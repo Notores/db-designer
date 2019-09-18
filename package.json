@@ -7,10 +7,14 @@
     "@types/node": "12.7.5",
     "@types/react": "16.9.2",
     "@types/react-dom": "16.9.0",
+    "node-sass": "^4.12.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-draggable": "latest",
+    "react-entypo": "^1.3.0",
     "react-scripts": "3.1.1",
-    "typescript": "3.6.3"
+    "typescript": "3.6.3",
+    "react-lineto": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -19,7 +23,18 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts?(x)"
+        ],
+        "rules": {
+          "no-namespace": "none"
+        }
+      }
+    ]
   },
   "browserslist": {
     "production": [

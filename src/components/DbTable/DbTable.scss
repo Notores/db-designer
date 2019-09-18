@@ -1,0 +1,69 @@
+.DbTable {
+  position: absolute;
+  width: auto;
+  display: block;
+  min-width: 250px;
+  max-width: 300px;
+  min-height: 200px;
+  max-height: 400px;
+  background-color: #fff;
+  z-index: 2;
+  border: 1px solid #ddd;
+  box-shadow: -1px 1px 1px rgba(153, 153, 153, 0.2);
+
+  .header {
+    background: #4b79ff;
+    line-height: 32px;
+    color: #fff;
+    cursor: grab;
+    margin: -1px -1px 0 -1px;
+  }
+
+  .body {
+
+    & > ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+      li{
+        display: flex;
+        &:not(:last-child) {
+          border-bottom: 1px solid #eee;
+        }
+        line-height: 20px;
+        padding: 4px 0;
+
+        span {
+          display: block;
+
+          &.key {
+            width: 40px;
+          }
+          &.name {
+            flex: 1;
+            font-size: 14px;
+
+          }
+          &.type {
+            width: 60px;
+            font-style: italic;
+            font-weight: lighter;
+            font-size: 12px;
+          }
+          &.refs {
+            width: 20px;
+          }
+
+          & > svg {
+            vertical-align: text-bottom !important;
+          }
+        }
+      }
+    }
+  }
+
+  &.react-draggable-dragging > .header {
+    cursor: grabbing
+  }
+}

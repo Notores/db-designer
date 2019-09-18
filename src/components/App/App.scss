@@ -1,0 +1,40 @@
+.App {
+  text-align: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+
+  .actions {
+    box-sizing: border-box;
+    border-left: 1px solid #aaa;
+    border-top: 1px solid #aaa;
+    width: 200px;
+    height: 80px;
+    position: absolute;
+    top: calc(100vh - 80px);
+    left: calc(100vw - 200px);
+    line-height: 74px;
+    text-align: left;
+    padding: 3px 12px;
+
+    .button {
+      border: 2px solid #f00;
+      box-sizing: border-box;
+      display: inline-block;
+      padding: 12px;
+      line-height: 18px;
+      border-radius: 50%;
+      text-align: center;
+      text-indent: 2px;
+      width: 44px;
+      height: 44px;
+      color: #f00;
+      cursor: pointer;
+
+      &:hover, &:active {
+        background-color: #f00;
+        color: #fff;
+      }
+    }
+  }
+}
