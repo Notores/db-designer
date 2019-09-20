@@ -38,7 +38,7 @@ export class String {
     }
 
     static toMongoose(){
-        return "string";
+        return "String";
     }
 }
 @staticImplements<DbColType>()
@@ -56,7 +56,7 @@ export class Integer  {
     }
 
     static toMongoose(){
-        return "string";
+        return "Number";
     }
 }
 @staticImplements<DbColType>()
@@ -74,7 +74,7 @@ export class Float  {
     }
 
     static toMongoose(){
-        return "string";
+        return "Number";
     }
 }
 @staticImplements<DbColType>()
@@ -92,6 +92,7 @@ export class Date  {
     }
 
     static toMongoose(){
-        return "string";
+        return "Date";
     }
 }
+
