@@ -4,6 +4,13 @@ function staticImplements<T>() {
     return <U extends T>(constructor: U) => constructor;
 }
 
+export interface Position {
+    x: number,
+    y: number,
+    width: number,
+    height: number
+}
+
 export interface DbTable {
     ref?: React.RefObject<HTMLDivElement>;
     name: string,

@@ -1,0 +1,19 @@
+.Button {
+  border: 2px solid #f00;
+  box-sizing: border-box;
+  display: inline-block;
+  padding: 12px;
+  line-height: 18px;
+  border-radius: 50%;
+  text-align: center;
+  text-indent: 2px;
+  width: 44px;
+  height: 44px;
+  color: #f00;
+  cursor: pointer;
+
+  &:hover, &:active {
+    background-color: #f00;
+    color: #fff;
+  }
+}

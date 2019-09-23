@@ -2,29 +2,32 @@
 import React, {Fragment, useState} from 'react';
 import './App.scss';
 import {DbTable} from "../index";
-import {Position} from "../DbTable/DbTable";
-
-import * as DbDesign from "../../types";
 import {SteppedLine} from "../SteppedLine/SteppedLine";
 // @ts-ignore
-import {EntypoExport} from 'react-entypo';
+import {EntypoExport, EntypoTextDocument} from 'react-entypo';
 import {Generate} from "../Generate/Generate";
+import {moveTable, addTable} from "../../store/project/actions";
+import {useDispatch, useSelector} from 'react-redux';
+import {ApplicationState} from "../../store"
+import Draggable from "react-draggable";
+import {Button, DraggableButton} from "../Button/Button";
 
 
 const App: React.FC = () => {
-  const [positions, setPositions] = useState<Array<Position>>([]);
   const [showGenerate, setShowGenerate] = useState<Boolean>(false);
-  const tables : Array<DbDesign.DbTable> = [];
-  tables.push({name: 'Entity', columns: [{name: 'id', type: DbDesign.Integer, primary: true, auto: true}, {name: 'value', type: DbDesign.String}]});
-  tables.push({name: 'SubEntity', columns: [{name: 'entity', type: DbDesign.Integer, primary: true, reference: {table: tables[0], col: tables[0].columns[0]}}, {name: 'subValue', type: DbDesign.String}]})
+  const tables = useSelector((state : ApplicationState) => state.project.data/*, (left, right) => {
+    const equality = JSON.stringify(left) === JSON.stringify(right);
+    console.log(equality, left, right)
+    return equality;
+  }*/);
+  console.log(tables);
+  const dispatch = useDispatch();
   return (
     <div className="App">
         {tables.map((table, idx) => (
             <Fragment key={idx}>
                 <DbTable table={table} key={idx} onMove={(pos) => {
-                  const newPositions = [...positions];
-                  newPositions[idx] = pos;
-                  setPositions(newPositions);
+                  dispatch(moveTable(table, pos))
                 }}/>
                 {
                   table.columns.map((col, index) => {
@@ -33,14 +36,10 @@ const App: React.FC = () => {
                         // @ts-ignore
                         return t.name === col.reference.table.name;
                       });
-                      if(positions[idx] && positions[refIndex]){
-
-                        return <SteppedLine key={index} orientation="v"
-                                            pos0={positions[idx]}
-                                            pos1={positions[refIndex]}
-                                            borderWidth={3} />
-
-                      }
+                      return <SteppedLine key={index} orientation="v"
+                                        pos0={tables[idx].position}
+                                        pos1={tables[refIndex].position}
+                                        borderWidth={3} />
                     }
                     return null;
                   })
@@ -48,9 +47,14 @@ const App: React.FC = () => {
             </Fragment>
         ))}
         <div className="actions">
-          <a className="button" title="generate" onClick={() => setShowGenerate(true)}>
-            <EntypoExport />
-          </a>
+            <Button onClick={() => setShowGenerate(true)}>
+                <EntypoExport />
+            </Button>
+            <DraggableButton onStop={(ev, data) => {
+                dispatch(addTable({x: data.x, y: data.y}))
+            }} resetOnStop={true}>
+                <EntypoTextDocument />
+            </DraggableButton>
         </div>
       {
         showGenerate ?
