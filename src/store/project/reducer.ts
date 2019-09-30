@@ -1,16 +1,17 @@
 import { Reducer } from 'redux'
 import { ProjectState, ProjectActionTypes } from './types'
 import * as DbDesign from '../../types';
+import {ColTypeEnum} from "../../types";
 
 // Type-safe initialState!
 export const initialState: ProjectState = {
   data: [
-    {position: {x: 0, y: 0, width: 200, height: 250}, name: 'Entity', columns: [{name: 'id', type: DbDesign.Integer, primary: true, auto: true}, {name: 'value', type: DbDesign.String}]},
+    {position: {x: 0, y: 0, width: 200, height: 250}, name: 'Entity', columns: [{name: 'id', type: ColTypeEnum.Integer, primary: true, auto: true}, {name: 'value', type: ColTypeEnum.String}]},
   ],
   errors: undefined,
   loading: false
 };
-initialState.data.push({position: {x: 300, y: 300, width: 200, height: 250}, name: 'SubEntity', columns: [{name: 'entity', type: DbDesign.Integer, primary: true, reference: {table: initialState.data[0], col: initialState.data[0].columns[0]}}, {name: 'subValue', type: DbDesign.String}]});
+initialState.data.push({position: {x: 300, y: 300, width: 200, height: 250}, name: 'SubEntity', columns: [{name: 'entity', type: ColTypeEnum.Integer, primary: true, reference: {table: initialState.data[0], col: initialState.data[0].columns[0]}}, {name: 'subValue', type: ColTypeEnum.String}]});
 
 // Thanks to Redux 4's much simpler typings, we can take away a lot of typings on the reducer side,
 // everything will remain type-safe.

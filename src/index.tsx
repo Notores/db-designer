@@ -9,10 +9,10 @@ import './assets/index.scss';
 import './types';
 import {Provider} from "react-redux";
 
-const history = createBrowserHistory()
+const history = createBrowserHistory();
 
 // @ts-ignore
-const initialState = window.INITIAL_REDUX_STATE
+const initialState = window.INITIAL_REDUX_STATE;
 
 const store = configureStore(history, initialState);
 

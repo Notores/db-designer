@@ -1,30 +1,34 @@
 import {useEffect, useState} from "react";
 import {DbTable} from "../../types";
 import {tablesToCode} from "./utils";
+import {Md5} from "ts-md5";
 
 interface Code {
     content: string
 }
 
+export enum CodeType {
+    MySQL = 'MySQL',
+    MSSQL = 'MSSQL',
+    Mongoose = 'Mongoose'
+}
+
 interface CodeState {
-    loaded: Boolean,
+    loaded: string | Int32Array,
     MSSQL?: Code,
     MySQL?: Code,
     Mongoose?: Code,
 }
 
 export const useGeneration = (tables : Array<DbTable>) => {
-    const [code, setCode] = useState<CodeState>({loaded: false});
-
-
+    const [code, setCode] = useState<CodeState>({loaded: ''});
     useEffect(() => {
         (async () => {
-            if(!code.loaded){
-                const newCode : CodeState = {loaded: true}
-                for(let type of ['MySQL', 'MSSQL', 'Mongoose']) {
-                    // @ts-ignore
+            const tablesHash = Md5.hashStr(JSON.stringify(tables));
+            if(!code.loaded || code.loaded !== tablesHash){
+                const newCode : CodeState = {loaded: tablesHash};
+                for(let type of [CodeType.MySQL, CodeType.MSSQL, CodeType.Mongoose]) {
                     const code = tablesToCode(tables, type);
-                    // @ts-ignore
                     newCode[type] = {content: code};
                 }
                 setCode(newCode);
@@ -34,6 +38,6 @@ export const useGeneration = (tables : Array<DbTable>) => {
 
     return {
         code,
-        loaded: code.loaded
+        loaded: !!code.loaded
     }
 }

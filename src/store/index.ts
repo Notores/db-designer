@@ -4,18 +4,18 @@ import { History } from 'history'
 
 import { projectReducer } from './project/reducer'
 import { ProjectState } from './project/types'
+import { layoutReducer } from "./layout/reducer";
+import { LayoutState } from "./layout/types";
 
-// The top-level state object
 export interface ApplicationState {
-  project: ProjectState
+  project: ProjectState,
+  layout: LayoutState,
   router: RouterState
 }
 
-// Whenever an action is dispatched, Redux will update each top-level application state property
-// using the reducer with the matching name. It's important that the names match exactly, and that
-// the reducer acts on the corresponding ApplicationState property type.
 export const createRootReducer = (history: History) =>
   combineReducers({
     project: projectReducer,
+    layout: layoutReducer,
     router: connectRouter(history)
-  })
+  });

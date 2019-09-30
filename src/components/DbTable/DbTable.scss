@@ -1,18 +1,15 @@
-.DbTable {
+.dragWrapper {
   position: absolute;
-  width: auto;
-  display: block;
-  min-width: 250px;
-  max-width: 300px;
-  min-height: 200px;
-  max-height: 400px;
-  background-color: #fff;
   z-index: 2;
+}
+.DbTable {
+  display: block;
+  background-color: #fff;
   border: 1px solid #ddd;
   box-shadow: -1px 1px 1px rgba(153, 153, 153, 0.2);
 
   .header {
-    background: #4b79ff;
+    background: var(--ui-accent-color);
     line-height: 32px;
     color: #fff;
     cursor: grab;

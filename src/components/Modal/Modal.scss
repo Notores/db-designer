@@ -1,0 +1,51 @@
+.Modal {
+  width: 800px;
+  height: 800px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left: -400px;
+  margin-top: -400px;
+  background: var(--ui-base-color);
+
+  @media screen and (max-width: 799px) {
+    width: 100vw;
+    left: 0;
+    margin-left: 0;
+  }
+  @media screen and (max-height: 799px) {
+    height: 100vh;
+    top: 0;
+    margin-top: 0;
+  }
+
+  .controls {
+    text-align: left;
+    padding: 8px 4px;
+
+    .title {
+      float: left;
+      line-height: 24px;
+      padding: 0 12px;
+      font-weight: bold;
+      text-transform: lowercase;
+      font-variant: all-small-caps;
+    }
+
+    button {
+      float: right;
+      -webkit-appearance: none;
+      border: none;
+      background: none;
+      outline: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    &:after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+}

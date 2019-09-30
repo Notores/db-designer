@@ -1,18 +1,19 @@
 /* eslint-disable no-loop-func */
-import {DbTable} from "../../types";
+import {DbColType, DbTable} from "../../types";
+import {CodeType} from "./hooks";
 
 interface ProcessedTable extends DbTable {
     processed: boolean
 }
 
-export const tablesToCode = (tables: Array<DbTable>, type: "MySQL" | "MSSQL" | "Mongoose") => {
+export const tablesToCode = (tables: Array<DbTable>, type: CodeType) => {
     const tablesProcess: Array<ProcessedTable> = tables.map(table => ({...table, processed: false}));
     switch (type) {
-        case "MySQL":
+        case CodeType.MySQL:
             return tablesToMySQL(tablesProcess);
-        case "MSSQL":
+        case CodeType.MSSQL:
             return tablesToMSSQL(tablesProcess);
-        case "Mongoose":
+        case CodeType.Mongoose:
             return tablesToMongoose(tablesProcess);
         default:
             return "";
@@ -29,7 +30,8 @@ function tablesToMySQL(tables: Array<ProcessedTable>): string {
                 table.columns.filter(col => col.reference && tables.find(t => col.reference && t.name === col.reference.table.name && t.processed)).length > 0) {
                 const rows: Array<string> = [];
                 table.columns.forEach(col => {
-                    rows.push(`  \`${col.name}\` ${col.type.toMySQL()} ${col.required ? 'NOT NULL' : 'NULL'}${col.auto ? ' AUTO_INCREMENT' : ''}`);
+                    const colType = new DbColType(col.type);
+                    rows.push(`  \`${col.name}\` ${colType.toMySQL()} ${col.required ? 'NOT NULL' : 'NULL'}${col.auto ? ' AUTO_INCREMENT' : ''}`);
                 });
                 rows.push(`  PRIMARY KEY(${table.columns.filter(col => `\`${col.primary}\``).map(col => col.name).join(', ')})`);
                 table.columns.forEach(col => {
@@ -56,7 +58,8 @@ function tablesToMSSQL(tables: Array<ProcessedTable>): string {
                 table.columns.filter(col => col.reference && tables.find(t => col.reference && t.name === col.reference.table.name && t.processed)).length > 0) {
                 const rows: Array<string> = [];
                 table.columns.forEach(col => {
-                    rows.push(`  [${col.name}] ${col.type.toMSSQL()} ${col.required ? 'NOT NULL' : 'NULL'}${col.auto ? ' IDENTITY(1,1)' : ''}`);
+                    const colType = new DbColType(col.type);
+                    rows.push(`  [${col.name}] ${colType.toMSSQL()} ${col.required ? 'NOT NULL' : 'NULL'}${col.auto ? ' IDENTITY(1,1)' : ''}`);
                 });
                 rows.push(`  CONSTRAINT pk_${table.name} PRIMARY KEY(${table.columns.filter(col => col.primary).map(col => `[${col.name}]`).join(', ')})`);
                 table.columns.forEach(col => {
@@ -86,11 +89,12 @@ function tablesToMongoose(tables: Array<ProcessedTable>): string {
             ) {
                 const rows: Array<string> = [];
                 table.columns.forEach(col => {
+                    const colType = new DbColType(col.type);
                     const columnOptions: any = {};
-                    columnOptions.type = col.type.toMongoose();
+                    columnOptions.type = colType.toMongoose();
                     columnOptions.required = !!col.required;
                     // columnOptions.auto;
-                    rows.push(`  ${col.name}: {type: ${col.reference ? 'Schema.Types.ObjectId' : col.type.toMongoose()}, ${col.reference ? `ref: '${col.reference.table.name}', ` : ''}${col.required ? 'required: true, ' : 'required: false, '}}, ${col.auto || col.name.toLowerCase() === 'id' ? '// MongoDB doesn\'t accept other a different id than it\'s own "_id" with type "ObjectId"' : ''}`);
+                    rows.push(`  ${col.name}: {type: ${col.reference ? 'Schema.Types.ObjectId' : colType.toMongoose()}, ${col.reference ? `ref: '${col.reference.table.name}', ` : ''}${col.required ? 'required: true, ' : 'required: false, '}}, ${col.auto || col.name.toLowerCase() === 'id' ? '// MongoDB doesn\'t accept other a different id than it\'s own "_id" with type "ObjectId"' : ''}`);
                 });
 
                 output += `const ${table.name} = new Schema({\n`;

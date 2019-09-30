@@ -1,0 +1,50 @@
+.Header {
+  background-color: var(--ui-dark-color);
+  height: 40px;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid black;
+}
+
+.SideBar {
+  background-color: var(--ui-dark-color);
+  width: 40px;
+  height: calc(100vh - 41px);
+  position: fixed;
+  top: 41px;
+  left: 0;
+  border-right: 1px solid black;
+
+  &.extended {
+    width: 200px;
+  }
+
+  #new-table {
+    margin: 8px
+  }
+}
+
+.HeaderItem {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  float: left;
+  padding: 0 3px;
+
+  button {
+    padding: 8px;
+    color: var(--ui-base-text-color);
+    -webkit-appearance: none;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 20px;
+    cursor: pointer;
+
+    svg {
+      vertical-align: middle !important;
+    }
+  }
+}

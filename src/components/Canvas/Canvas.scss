@@ -1,0 +1,15 @@
+.Canvas {
+  background-color: #161a21;
+  position: fixed;
+  overflow: auto;
+  width: calc(100vw - 201px);
+  height: calc(100vh - 41px);
+  position: fixed;
+  top: 41px;
+  left: 201px;
+
+  &.extended {
+    width: calc(100vw - 41px);
+    left: 41px;
+  }
+}

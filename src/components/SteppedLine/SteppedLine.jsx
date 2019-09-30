@@ -80,7 +80,7 @@ Line.propTypes = Object.assign({}, {
     y0: PropTypes.number.isRequired,
     x1: PropTypes.number.isRequired,
     y1: PropTypes.number.isRequired,
-    arrow: PropTypes.boolean,
+    arrow: PropTypes.bool,
     orientation: PropTypes.oneOf(['h','v'])
 }, optionalStyleProps);
 
@@ -156,7 +156,7 @@ export class SteppedLine extends PureComponent {
         const yOffset = dy < 0 ? borderWidth : 0;
         const minY = Math.min(y0, y1) - yOffset;
         const maxY = Math.max(y0, y1);
-
+    console.log('flipped', flipped)
         return (
             <div className="react-steppedlineto" style={{position: 'absolute', top: y0, left: x0, width: `${x1-x0}px`, height: `${y1-y0}px`}}>
         {
@@ -167,8 +167,8 @@ export class SteppedLine extends PureComponent {
                     <Line {...this.props} x0={x2 - x0} y0={minY - y0} x1={x2 - x0} y1={maxY - y0} />
                 </Fragment> :
                 <Fragment>
-                    <Line {...this.props} x0={x1 - x0 - x1Offset} y0={0} x1={x2 - x0} y1={0} />
-                    <Line {...this.props} x0={x0Offset} y0={y1 - y0} x1={x2 - x0} y1={y1 - y0} arrow={true} orientation={'h'} />
+                    <Line {...this.props} x0={x1 - x0 - x1Offset} y0={0} x1={x2 - x0} y1={0}  />
+                    <Line {...this.props} x0={x0Offset} y0={y1 - y0} x1={x2 - x0} y1={y1 - y0} arrow={true}  orientation={'h'} />
                     <Line {...this.props} x0={x2 - x0} y0={minY - y0} x1={x2 - x0} y1={maxY - y0} />
                 </Fragment>
         }
