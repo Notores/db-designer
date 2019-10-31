@@ -94,7 +94,7 @@ function tablesToMongoose(tables: Array<ProcessedTable>): string {
                     columnOptions.type = colType.toMongoose();
                     columnOptions.required = !!col.required;
                     // columnOptions.auto;
-                    rows.push(`  ${col.name}: {type: ${col.reference ? 'Schema.Types.ObjectId' : colType.toMongoose()}, ${col.reference ? `ref: '${col.reference.table.name}', ` : ''}${col.required ? 'required: true, ' : 'required: false, '}}, ${col.auto || col.name.toLowerCase() === 'id' ? '// MongoDB doesn\'t accept other a different id than it\'s own "_id" with type "ObjectId"' : ''}`);
+                    rows.push(`${col.auto? '//': ''}  ${col.auto ? '_id' : col.name}: {type: ${col.reference || col.auto ? 'Schema.Types.ObjectId' : colType.toMongoose()}, ${col.reference ? `ref: '${col.reference.table.name}', ` : ''}${col.required ? 'required: true, ' : 'required: false, '}}, ${col.auto || col.name.toLowerCase() === 'id' ? '// MongoDB doesn\'t accept other a different id than it\'s own "_id" with type "ObjectId"' : ''}`);
                 });
 
                 output += `const ${table.name} = new Schema({\n`;
